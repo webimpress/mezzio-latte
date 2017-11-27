@@ -1,0 +1,62 @@
+{
+    "name": "webimpress/zend-expressive-latte",
+    "description": "",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "expressive",
+        "zf",
+        "zendframework",
+        "latte"
+    ],
+    "support": {
+        "docs": "https://docs.zendframework.com/zend-expressive-latte/",
+        "issues": "https://github.com/webimpress/zend-expressive-latte/issues",
+        "source": "https://github.com/webimpress/zend-expressive-latte",
+        "rss": "https://github.com/webimpress/zend-expressive-latte/releases.atom",
+        "slack": "https://zendframework-slack.herokuapp.com",
+        "forum": "https://discourse.zendframework.com/c/questions/expressive"
+    },
+    "require": {
+        "php": "^7.1",
+        "latte/latte": "^2.4.6",
+        "psr/container": "^1.0",
+        "zendframework/zend-expressive-template": "^1.0.4"
+    },
+    "require-dev": {
+        "mikey179/vfsStream": "^1.6.5",
+        "phpunit/phpunit": "^6.4.4",
+        "zendframework/zend-coding-standard": "~1.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Zend\\Expressive\\Latte\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ZendTest\\Expressive\\Latte\\": "test/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        },
+        "zf": {
+            "config-provider": "Zend\\Expressive\\Latte\\ConfigProvider"
+        }
+    },
+    "scripts": {
+        "check": [
+            "@cs-check",
+            "@test"
+        ],
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "test": "phpunit --colors=always",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
+        "upload-coverage": "coveralls -v"
+    }
+}
