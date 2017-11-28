@@ -11,6 +11,7 @@ class ConfigProvider
         return [
             'dependencies' => $this->getDependencies(),
             'templates' => $this->getTemplates(),
+            'latte' => $this->getLatte(),
         ];
     }
 
@@ -20,7 +21,13 @@ class ConfigProvider
             'aliases' => [
                 TemplateRendererInterface::class => LatteRenderer::class,
             ],
+            'invokables' => [
+                Macro\Path::class => Macro\Path::class,
+                Macro\Url::class => Macro\Url::class,
+            ],
             'factories' => [
+                Filter\ServerUrlHelper::class => Filter\ServerUrlHelperFactory::class,
+                Filter\UrlHelper::class => Filter\UrlHelperFactory::class,
                 LatteRenderer::class => LatteRendererFactory::class,
                 MultiplePathLoaderInterface::class => MultipleFileLoaderFactory::class,
             ],
@@ -32,6 +39,20 @@ class ConfigProvider
         return [
             'extension' => 'latte',
             'paths' => [],
+        ];
+    }
+
+    public function getLatte() : array
+    {
+        return [
+            'filters' => [
+                'urlHelper' => Filter\UrlHelper::class,
+                'serverUrlHelper' => Filter\ServerUrlHelper::class,
+            ],
+            'macros' => [
+                'path' => Macro\Path::class,
+                'url' => Macro\Url::class,
+            ],
         ];
     }
 }
