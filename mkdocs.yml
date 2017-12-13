@@ -3,7 +3,7 @@ site_dir: docs/html
 pages:
     - index.md
     - Introduction: intro.md
-site_name: Component Name Goes Here
-site_description: 'Component Description goes here'
+site_name: Zend Expressive Latte Tempaltes
+site_description: 'Latte integration for Expressive'
 repo_url: 'https://github.com/webimpress/zend-expressive-latte'
-copyright: 'Copyright (c) 2017 <a href="http://www.zend.com/">Zend Technologies USA Inc.</a>'
+copyright: 'Copyright (c) 2017 <a href="https://www.zend.com/">Zend Technologies USA Inc.</a>'
