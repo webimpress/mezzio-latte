@@ -13,12 +13,6 @@ Run the following to install this library:
 $ composer require webimpress/zend-expressive-latte
 ```
 
-## Documentation
+## How to use Latte
 
-Documentation is [in the doc tree](docs/book/), and can be compiled using [mkdocs](http://www.mkdocs.org):
-
-```bash
-$ mkdocs build
-```
-
-You may also [browse the documentation online](https://docs.zendframework.com/zend-expressive-latte/).
+Work in progress...

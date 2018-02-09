@@ -1,7 +1,7 @@
 {
     "name": "webimpress/zend-expressive-latte",
     "description": "Latte integration for Expressive",
-    "license": "BSD-3-Clause",
+    "license": "BSD-2-Clause",
     "keywords": [
         "expressive",
         "zf",
@@ -9,12 +9,9 @@
         "latte"
     ],
     "support": {
-        "docs": "https://docs.zendframework.com/zend-expressive-latte/",
         "issues": "https://github.com/webimpress/zend-expressive-latte/issues",
         "source": "https://github.com/webimpress/zend-expressive-latte",
-        "rss": "https://github.com/webimpress/zend-expressive-latte/releases.atom",
-        "slack": "https://zendframework-slack.herokuapp.com",
-        "forum": "https://discourse.zendframework.com/c/questions/expressive"
+        "rss": "https://github.com/webimpress/zend-expressive-latte/releases.atom"
     },
     "require": {
         "php": "^7.1",
