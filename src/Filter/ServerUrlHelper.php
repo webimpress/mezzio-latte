@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Zend\Expressive\Latte\Filter;
 
 class ServerUrlHelper
@@ -11,7 +13,7 @@ class ServerUrlHelper
         $this->serverUrlHelper = $serverUrlHelper;
     }
 
-    public function __invoke()
+    public function __invoke() : string
     {
         return $this->serverUrlHelper->generate(... func_get_args());
     }

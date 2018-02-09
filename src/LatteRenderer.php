@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Zend\Expressive\Latte;
 
 use Latte\Engine;
@@ -44,11 +46,9 @@ class LatteRenderer implements TemplateRendererInterface
      * Implementations MUST support the `namespace::template` naming convention,
      * and allow omitting the filename extension.
      *
-     * @param string $name
      * @param array|object $params
-     * @return string
      */
-    public function render($name, $params = [])
+    public function render(string $name, $params = []) : string
     {
         // Merge parameters based on requested template name
         $params = $this->mergeParams($name, $this->normalizeParams($params));
@@ -61,11 +61,8 @@ class LatteRenderer implements TemplateRendererInterface
      *
      * Adds a template path, with optional namespace the templates in that path
      * provide.
-     *
-     * @param string $path
-     * @param string $namespace
      */
-    public function addPath($path, $namespace = null)
+    public function addPath(string $path, string $namespace = null) : void
     {
         $this->loader->addPath($path, $namespace);
     }
@@ -75,7 +72,7 @@ class LatteRenderer implements TemplateRendererInterface
      *
      * @return TemplatePath[]
      */
-    public function getPaths()
+    public function getPaths() : array
     {
         $paths = [];
         foreach ($this->loader->getPaths() as $namespace => $path) {

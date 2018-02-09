@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Zend\Expressive\Latte\Macro;
 
 use Latte\IMacro;

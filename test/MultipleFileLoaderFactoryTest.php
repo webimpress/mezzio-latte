@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ZendTest\Expressive\Latte;
 
 use PHPUnit\Framework\TestCase;

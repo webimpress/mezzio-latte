@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Zend\Expressive\Latte;
 
 use Latte\Loaders\FileLoader;
@@ -68,9 +70,8 @@ class MultipleFileLoader implements MultiplePathLoaderInterface
      * Returns template source code.
      *
      * @param string $name
-     * @return string
      */
-    public function getContent($name)
+    public function getContent($name) : string
     {
         [$namespace, $file] = $this->getName($name);
 
@@ -79,10 +80,8 @@ class MultipleFileLoader implements MultiplePathLoaderInterface
 
     /**
      * Checks whether template is expired.
-     *
-     * @return bool
      */
-    public function isExpired($name, $time)
+    public function isExpired($name, $time) : bool
     {
         [$namespace, $file] = $this->getName($name);
 
@@ -91,20 +90,16 @@ class MultipleFileLoader implements MultiplePathLoaderInterface
 
     /**
      * Returns referred template name.
-     *
-     * @return string
      */
-    public function getReferredName($name, $referringName)
+    public function getReferredName($name, $referringName) : string
     {
         return $name;
     }
 
     /**
      * Returns unique identifier for caching.
-     *
-     * @return string
      */
-    public function getUniqueId($name)
+    public function getUniqueId($name) : string
     {
         [$namespace, $file] = $this->getName($name);
 

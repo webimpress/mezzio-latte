@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Zend\Expressive\Latte;
 
 use Latte\Engine as LatteEngine;

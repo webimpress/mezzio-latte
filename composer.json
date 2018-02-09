@@ -20,12 +20,13 @@
         "php": "^7.1",
         "latte/latte": "^2.4.6",
         "psr/container": "^1.0",
-        "zendframework/zend-expressive-helpers": "^1.4 || ^2.2 || ^3.0.1 || ^4.0",
-        "zendframework/zend-expressive-template": "^1.0.4"
+        "zendframework/zend-expressive-helpers": "^5.0.0alpha1 || ^5.0",
+        "zendframework/zend-expressive-router": "^3.0.0alpha1 || ^3.0",
+        "zendframework/zend-expressive-template": "^2.0.0alpha1 || ^2.0"
     },
     "require-dev": {
         "mikey179/vfsStream": "^1.6.5",
-        "phpunit/phpunit": "^6.4.4",
+        "phpunit/phpunit": "^7.0",
         "zendframework/zend-coding-standard": "~1.0.0"
     },
     "autoload": {
