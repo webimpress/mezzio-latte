@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ZendTest\Expressive\Latte;
 
+use Generator;
 use PHPUnit\Framework\TestCase;
 use Zend\Expressive\Latte\Exception\ExceptionInterface;
 use Zend\Expressive\Template\Exception\ExceptionInterface as TemplateExceptionInterface;
@@ -15,7 +16,7 @@ class ExceptionTest extends TestCase
         self::assertTrue(is_a(ExceptionInterface::class, TemplateExceptionInterface::class, true));
     }
 
-    public function exception()
+    public function exception() : Generator
     {
         $namespace = substr(ExceptionInterface::class, 0, strrpos(ExceptionInterface::class, '\\') + 1);
 
