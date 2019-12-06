@@ -8,6 +8,7 @@ use Latte\Engine;
 use Latte\ILoader;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
+use TypeError;
 use Zend\Expressive\Latte\Exception\InvalidLoaderException;
 use Zend\Expressive\Latte\LatteRenderer;
 use Zend\Expressive\Latte\MultipleFileLoader;
@@ -29,7 +30,7 @@ class LatteRendererTest extends TestCase
 
     public function testCreationThrowsExceptionWhenEngineDoesNotHaveLoader() : void
     {
-        $this->expectException(InvalidLoaderException::class);
+        $this->expectException(TypeError::class);
         new LatteRenderer($this->engine->reveal());
     }
 
@@ -101,7 +102,7 @@ class LatteRendererTest extends TestCase
         $renderer->addPath('baz', 'abc');
 
         $paths = $renderer->getPaths();
-        self::assertInternalType('array', $paths);
+        self::assertIsArray($paths);
         self::assertCount(2, $paths);
         self::assertContainsOnlyInstancesOf(TemplatePath::class, $paths);
         self::assertSame('foo.path', $paths[0]->getPath());

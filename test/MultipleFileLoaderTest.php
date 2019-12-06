@@ -37,7 +37,7 @@ class MultipleFileLoaderTest extends TestCase
 
         $paths = $loader->getPaths();
 
-        self::assertInternalType('array', $paths);
+        self::assertIsArray($paths);
         self::assertSame([
             'Ns1' => 'foo/bar',
             null => 'baz/goo',
