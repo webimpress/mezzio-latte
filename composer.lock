@@ -58,16 +58,16 @@
         },
         {
             "name": "latte/latte",
-            "version": "v2.5.4",
+            "version": "v2.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/latte.git",
-                "reference": "211bec057917e1d771aa09fc334cde1229738860"
+                "reference": "6e3185d8e00f0f212733360a6590e3ffb46fcb5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/latte/zipball/211bec057917e1d771aa09fc334cde1229738860",
-                "reference": "211bec057917e1d771aa09fc334cde1229738860",
+                "url": "https://api.github.com/repos/nette/latte/zipball/6e3185d8e00f0f212733360a6590e3ffb46fcb5c",
+                "reference": "6e3185d8e00f0f212733360a6590e3ffb46fcb5c",
                 "shasum": ""
             },
             "require": {
@@ -92,7 +92,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.5-dev"
+                    "dev-master": "2.6-dev"
                 }
             },
             "autoload": {
@@ -128,7 +128,7 @@
                 "template",
                 "twig"
             ],
-            "time": "2019-12-11T19:48:05+00:00"
+            "time": "2020-01-03T22:37:05+00:00"
         },
         {
             "name": "psr/container",
@@ -393,6 +393,7 @@
                 "zend-expressive",
                 "zf"
             ],
+            "abandoned": "mezzio/mezzio-helpers",
             "time": "2019-03-12T20:43:27+00:00"
         },
         {
@@ -456,6 +457,7 @@
                 "zend-expressive",
                 "zf"
             ],
+            "abandoned": "mezzio/mezzio-router",
             "time": "2019-10-16T20:06:55+00:00"
         },
         {
@@ -509,6 +511,7 @@
                 "zend-expressive",
                 "zf"
             ],
+            "abandoned": "mezzio/mezzio-template",
             "time": "2019-06-20T14:05:59+00:00"
         }
     ],
@@ -2179,6 +2182,7 @@
                 "Coding Standard",
                 "zf"
             ],
+            "abandoned": "laminas/laminas-coding-standard",
             "time": "2016-11-09T21:30:43+00:00"
         }
     ],
