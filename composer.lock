@@ -58,16 +58,16 @@
         },
         {
             "name": "latte/latte",
-            "version": "v2.5.4",
+            "version": "v2.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/latte.git",
-                "reference": "211bec057917e1d771aa09fc334cde1229738860"
+                "reference": "f2854b9261bfafe1d526cd836d8e8e11e14ae93b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/latte/zipball/211bec057917e1d771aa09fc334cde1229738860",
-                "reference": "211bec057917e1d771aa09fc334cde1229738860",
+                "url": "https://api.github.com/repos/nette/latte/zipball/f2854b9261bfafe1d526cd836d8e8e11e14ae93b",
+                "reference": "f2854b9261bfafe1d526cd836d8e8e11e14ae93b",
                 "shasum": ""
             },
             "require": {
@@ -79,6 +79,7 @@
                 "nette/application": "<2.4.1"
             },
             "require-dev": {
+                "nette/php-generator": "^3.3.4",
                 "nette/tester": "~2.0",
                 "nette/utils": "^3.0",
                 "phpstan/phpstan": "^0.12",
@@ -86,13 +87,15 @@
             },
             "suggest": {
                 "ext-fileinfo": "to use filter |datastream",
+                "ext-iconv": "to use filters |reverse, |substring",
                 "ext-mbstring": "to use filters like lower, upper, capitalize, ...",
+                "nette/php-generator": "to use tag {templatePrint}",
                 "nette/utils": "to use filter |webalize"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.5-dev"
+                    "dev-master": "2.7-dev"
                 }
             },
             "autoload": {
@@ -103,8 +106,8 @@
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause",
-                "GPL-2.0",
-                "GPL-3.0"
+                "GPL-2.0-only",
+                "GPL-3.0-only"
             ],
             "authors": [
                 {
@@ -128,7 +131,7 @@
                 "template",
                 "twig"
             ],
-            "time": "2019-12-11T19:48:05+00:00"
+            "time": "2020-04-01T14:27:27+00:00"
         },
         {
             "name": "psr/container",
