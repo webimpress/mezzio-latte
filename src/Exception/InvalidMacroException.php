@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zend\Expressive\Latte\Exception;
+namespace Webimpress\Mezzio\Latte\Exception;
 
 use InvalidArgumentException;
 use Psr\Container\ContainerExceptionInterface;

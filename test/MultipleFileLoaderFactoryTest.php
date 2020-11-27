@@ -2,34 +2,34 @@
 
 declare(strict_types=1);
 
-namespace ZendTest\Expressive\Latte;
+namespace WebimpressTest\Mezzio\Latte;
 
+use Generator;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Latte\Exception\InvalidConfigException;
-use Zend\Expressive\Latte\MultipleFileLoader;
-use Zend\Expressive\Latte\MultipleFileLoaderFactory;
+use ReflectionProperty;
+use Webimpress\Mezzio\Latte\Exception\InvalidConfigException;
+use Webimpress\Mezzio\Latte\MultipleFileLoader;
+use Webimpress\Mezzio\Latte\MultipleFileLoaderFactory;
+
+use function count;
 
 class MultipleFileLoaderFactoryTest extends TestCase
 {
-    /**
-     * @var ContainerInterface|ObjectProphecy
-     */
+    /** @var ContainerInterface|MockObject */
     private $container;
 
-    /**
-     * @var MultipleFileLoaderFactory
-     */
+    /** @var MultipleFileLoaderFactory */
     private $factory;
 
     protected function setUp() : void
     {
-        $this->container = $this->prophesize(ContainerInterface::class);
+        $this->container = $this->createMock(ContainerInterface::class);
         $this->factory = new MultipleFileLoaderFactory();
     }
 
-    public function invalidConfig()
+    public function invalidConfig() : Generator
     {
         yield 'templates-no-array' => [['templates' => 'invalid']];
         yield 'paths-duplicated' => [['templates' => ['paths' => ['namespace' => ['a', 'b']]]]];
@@ -41,10 +41,10 @@ class MultipleFileLoaderFactoryTest extends TestCase
      */
     public function testInvokeWithInvalidConfigurationThrowsInvalidConfigException(array $config) : void
     {
-        $this->container->get('config')->willReturn($config);
+        $this->container->method('get')->with('config')->willReturn($config);
 
         $this->expectException(InvalidConfigException::class);
-        ($this->factory)($this->container->reveal());
+        ($this->factory)($this->container);
     }
 
     public function testInvokeCreatesInstanceWithoutFileExtension() : void
@@ -59,14 +59,26 @@ class MultipleFileLoaderFactoryTest extends TestCase
             ],
         ];
 
-        $this->container->get('config')->willReturn($config);
+        $this->container->method('get')->with('config')->willReturn($config);
 
-        $instance = ($this->factory)($this->container->reveal());
+        $instance = ($this->factory)($this->container);
 
         self::assertInstanceOf(MultipleFileLoader::class, $instance);
-        self::assertAttributeSame('foo.bar', 'fileExtension', $instance);
-        self::assertAttributeSame($config['templates']['paths'], 'paths', $instance);
-        self::assertAttributeCount(count($config['templates']['paths']), 'loaders', $instance);
+
+        $fileExtension = new ReflectionProperty($instance, 'fileExtension');
+        $fileExtension->setAccessible(true);
+
+        self::assertSame('foo.bar', $fileExtension->getValue($instance));
+
+        $paths = new ReflectionProperty($instance, 'paths');
+        $paths->setAccessible(true);
+
+        self::assertSame($config['templates']['paths'], $paths->getValue($instance));
+
+        $loaders = new ReflectionProperty($instance, 'loaders');
+        $loaders->setAccessible(true);
+
+        self::assertCount(count($config['templates']['paths']), $loaders->getValue($instance));
     }
 
     public function testInvokeCreatesInstanceWithFileExtension() : void
@@ -79,13 +91,25 @@ class MultipleFileLoaderFactoryTest extends TestCase
             ],
         ];
 
-        $this->container->get('config')->willReturn($config);
+        $this->container->method('get')->with('config')->willReturn($config);
 
-        $instance = ($this->factory)($this->container->reveal());
+        $instance = ($this->factory)($this->container);
 
         self::assertInstanceOf(MultipleFileLoader::class, $instance);
-        self::assertAttributeSame('latte', 'fileExtension', $instance);
-        self::assertAttributeSame($config['templates']['paths'], 'paths', $instance);
-        self::assertAttributeCount(count($config['templates']['paths']), 'loaders', $instance);
+
+        $fileExtension = new ReflectionProperty($instance, 'fileExtension');
+        $fileExtension->setAccessible(true);
+
+        self::assertSame('latte', $fileExtension->getValue($instance));
+
+        $paths = new ReflectionProperty($instance, 'paths');
+        $paths->setAccessible(true);
+
+        self::assertSame($config['templates']['paths'], $paths->getValue($instance));
+
+        $loaders = new ReflectionProperty($instance, 'loaders');
+        $loaders->setAccessible(true);
+
+        self::assertCount(count($config['templates']['paths']), $loaders->getValue($instance));
     }
 }

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Zend\Expressive\Latte\Macro;
+namespace Webimpress\Mezzio\Latte\Macro;
 
 use Latte\IMacro;
 use Latte\MacroNode;
 use Latte\PhpWriter;
-use Zend\Expressive\Latte\MacroInterface;
+use Webimpress\Mezzio\Latte\MacroInterface;
 
 class Path implements MacroInterface
 {

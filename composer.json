@@ -1,39 +1,38 @@
 {
-    "name": "webimpress/zend-expressive-latte",
-    "description": "Latte integration for Expressive",
+    "name": "webimpress/mezzio-latte",
+    "description": "Latte integration for Mezzio",
     "license": "BSD-2-Clause",
     "keywords": [
-        "expressive",
-        "zf",
-        "zendframework",
+        "mezzio",
+        "laminas",
         "latte"
     ],
     "support": {
-        "issues": "https://github.com/webimpress/zend-expressive-latte/issues",
-        "source": "https://github.com/webimpress/zend-expressive-latte",
-        "rss": "https://github.com/webimpress/zend-expressive-latte/releases.atom"
+        "issues": "https://github.com/webimpress/mezzio-latte/issues",
+        "source": "https://github.com/webimpress/mezzio-latte",
+        "rss": "https://github.com/webimpress/mezzio-latte/releases.atom"
     },
     "require": {
-        "php": "^7.1",
-        "latte/latte": "^2.5.3",
+        "php": "^7.3 || ^8.0",
+        "latte/latte": "^2.9.1",
         "psr/container": "^1.0",
-        "zendframework/zend-expressive-helpers": "^5.3",
-        "zendframework/zend-expressive-router": "^3.1.1",
-        "zendframework/zend-expressive-template": "^2.0.1"
+        "mezzio/mezzio-helpers": "^5.4",
+        "mezzio/mezzio-router": "^3.2.1",
+        "mezzio/mezzio-template": "^2.0.1"
     },
     "require-dev": {
         "mikey179/vfsstream": "^1.6.8",
-        "phpunit/phpunit": "^7.5.18 || ^8.5",
-        "zendframework/zend-coding-standard": "~1.0.0"
+        "phpunit/phpunit": "^9.4.3",
+        "webimpress/coding-standard": "^1.2"
     },
     "autoload": {
         "psr-4": {
-            "Zend\\Expressive\\Latte\\": "src/"
+            "Webimpress\\Mezzio\\Latte\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "ZendTest\\Expressive\\Latte\\": "test/"
+            "WebimpressTest\\Mezzio\\Latte\\": "test/"
         }
     },
     "config": {
@@ -44,7 +43,7 @@
             "dev-master": "1.0-dev"
         },
         "zf": {
-            "config-provider": "Zend\\Expressive\\Latte\\ConfigProvider"
+            "config-provider": "Webimpress\\Mezzio\\Latte\\ConfigProvider"
         }
     },
     "scripts": {

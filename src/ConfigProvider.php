@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Zend\Expressive\Latte;
+namespace Webimpress\Mezzio\Latte;
 
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
 class ConfigProvider
 {

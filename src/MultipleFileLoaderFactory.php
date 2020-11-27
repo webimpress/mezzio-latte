@@ -2,14 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Zend\Expressive\Latte;
+namespace Webimpress\Mezzio\Latte;
 
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Latte\Exception\InvalidConfigException;
-use Zend\Expressive\Latte\Exception\NamespaceUsedException;
+use Webimpress\Mezzio\Latte\Exception\InvalidConfigException;
+use Webimpress\Mezzio\Latte\Exception\NamespaceUsedException;
+
+use function is_array;
+use function is_numeric;
+use function is_string;
 
 class MultipleFileLoaderFactory
 {
+    /**
+     * @throws InvalidConfigException
+     */
     public function __invoke(ContainerInterface $container) : MultipleFileLoader
     {
         $config = $container->get('config')['templates'] ?? [];

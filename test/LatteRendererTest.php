@@ -2,62 +2,64 @@
 
 declare(strict_types=1);
 
-namespace ZendTest\Expressive\Latte;
+namespace WebimpressTest\Mezzio\Latte;
 
 use Latte\Engine;
-use Latte\ILoader;
+use latte\iloader;
+use Mezzio\Template\TemplatePath;
+use Mezzio\Template\TemplateRendererInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Prophecy\ObjectProphecy;
 use TypeError;
-use Zend\Expressive\Latte\Exception\InvalidLoaderException;
-use Zend\Expressive\Latte\LatteRenderer;
-use Zend\Expressive\Latte\MultipleFileLoader;
-use Zend\Expressive\Latte\MultiplePathLoaderInterface;
-use Zend\Expressive\Template\TemplatePath;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Webimpress\Mezzio\Latte\Exception\InvalidLoaderException;
+use Webimpress\Mezzio\Latte\LatteRenderer;
+use Webimpress\Mezzio\Latte\MultipleFileLoader;
+use Webimpress\Mezzio\Latte\MultiplePathLoaderInterface;
 
 class LatteRendererTest extends TestCase
 {
-    /**
-     * @var Engine|ObjectProphecy
-     */
+    /** @var Engine|MockObject */
     private $engine;
 
     protected function setUp() : void
     {
-        $this->engine = $this->prophesize(Engine::class);
+        $this->engine = $this->createMock(Engine::class);
     }
 
     public function testCreationThrowsExceptionWhenEngineDoesNotHaveLoader() : void
     {
+        $this->engine->method('getLoader')->willReturn(null);
+
         $this->expectException(TypeError::class);
-        new LatteRenderer($this->engine->reveal());
+        new LatteRenderer($this->engine);
     }
 
-    public function testCreationThrowsExceptionWHenEngineHasInvalidLoader() : void
+    public function testCreationThrowsExceptionWhenEngineHasInvalidLoader() : void
     {
-        $this->engine->getLoader()->willReturn($this->prophesize(ILoader::class));
+        $this->engine->method('getLoader')->willReturn($this->createMock(iloader::class));
 
         $this->expectException(InvalidLoaderException::class);
-        new LatteRenderer($this->engine->reveal());
+        new LatteRenderer($this->engine);
     }
 
     public function testInstanceOfTemplateRendererInterface() : void
     {
-        $this->engine->getLoader()->willReturn($this->prophesize(MultiplePathLoaderInterface::class));
+        $this->engine->method('getLoader')->willReturn($this->createMock(MultiplePathLoaderInterface::class));
 
-        $renderer = new LatteRenderer($this->engine->reveal());
+        $renderer = new LatteRenderer($this->engine);
         self::assertInstanceOf(TemplateRendererInterface::class, $renderer);
     }
 
     public function testRenderWithoutDefaultParams() : void
     {
-        $this->engine->getLoader()->willReturn($this->prophesize(MultiplePathLoaderInterface::class));
-        $this->engine->renderToString('foo::bar', ['p0' => 'v1'])
-            ->willReturn('rendered-response-baz')
-            ->shouldBeCalledTimes(1);
+        $this->engine->method('getLoader')
+                     ->willReturn($this->createMock(MultiplePathLoaderInterface::class));
+        $this->engine->expects(self::once())
+                     ->method('renderToString')
+                     ->with('foo::bar', ['p0' => 'v1'])
+                     ->willReturn('rendered-response-baz');
 
-        $renderer = new LatteRenderer($this->engine->reveal());
+        $renderer = new LatteRenderer($this->engine);
 
         $result = $renderer->render('foo::bar', ['p0' => 'v1']);
         self::assertSame('rendered-response-baz', $result);
@@ -65,12 +67,14 @@ class LatteRendererTest extends TestCase
 
     public function testRenderWithDefaultParams() : void
     {
-        $this->engine->getLoader()->willReturn($this->prophesize(MultiplePathLoaderInterface::class));
-        $this->engine->renderToString('foo::baz', ['p2' => 'v3', 'p' => 'def-boo', 'g' => 'def-hoo'])
-            ->willReturn('result-bar')
-            ->shouldBeCalledTimes(1);
+        $this->engine->method('getLoader')
+                     ->willReturn($this->createMock(MultiplePathLoaderInterface::class));
+        $this->engine->expects(self::once())
+                     ->method('renderToString')
+                     ->with('foo::baz', ['p2' => 'v3', 'p' => 'def-boo', 'g' => 'def-hoo'])
+                     ->willReturn('result-bar');
 
-        $renderer = new LatteRenderer($this->engine->reveal());
+        $renderer = new LatteRenderer($this->engine);
 
         $renderer->addDefaultParam('foo::baz', 'p', 'def-boo');
         $renderer->addDefaultParam('foo::baz', 'g', 'def-hoo');
@@ -81,12 +85,12 @@ class LatteRendererTest extends TestCase
 
     public function testAddPath() : void
     {
-        $loader = $this->prophesize(MultiplePathLoaderInterface::class);
-        $loader->addPath('foo/path', 'bar/ns')->shouldBeCalledTimes(1);
+        $loader = $this->createMock(MultiplePathLoaderInterface::class);
+        $loader->expects(self::once())->method('addPath')->with('foo/path', 'bar/ns');
 
-        $this->engine->getLoader()->willReturn($loader->reveal());
+        $this->engine->method('getLoader')->willReturn($loader);
 
-        $renderer = new LatteRenderer($this->engine->reveal());
+        $renderer = new LatteRenderer($this->engine);
 
         $renderer->addPath('foo/path', 'bar/ns');
     }
@@ -95,9 +99,9 @@ class LatteRendererTest extends TestCase
     {
         $loader = new MultipleFileLoader();
 
-        $this->engine->getLoader()->willReturn($loader);
+        $this->engine->method('getLoader')->willReturn($loader);
 
-        $renderer = new LatteRenderer($this->engine->reveal());
+        $renderer = new LatteRenderer($this->engine);
         $renderer->addPath('foo.path', 'BAR');
         $renderer->addPath('baz', 'abc');
 

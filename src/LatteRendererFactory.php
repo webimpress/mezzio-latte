@@ -2,15 +2,25 @@
 
 declare(strict_types=1);
 
-namespace Zend\Expressive\Latte;
+namespace Webimpress\Mezzio\Latte;
 
 use Latte\Engine as LatteEngine;
 use Latte\Macros\MacroSet;
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Latte\Exception\InvalidMacroException;
+use Webimpress\Mezzio\Latte\Exception\InvalidMacroException;
+
+use function get_class;
+use function is_array;
+use function is_int;
+use function is_object;
+use function is_string;
+use function sprintf;
 
 class LatteRendererFactory
 {
+    /**
+     * @throws InvalidMacroException
+     */
     public function __invoke(ContainerInterface $container) : LatteRenderer
     {
         $config = $container->get('config')['latte'] ?? [];
@@ -59,7 +69,7 @@ class LatteRendererFactory
                     ];
                 }
 
-                $set->addMacro($name, ... $macro);
+                $set->addMacro($name, ...$macro);
             }
         }
 

@@ -2,16 +2,14 @@
 
 declare(strict_types=1);
 
-namespace ZendTest\Expressive\Latte;
+namespace WebimpressTest\Mezzio\Latte;
 
 use PHPUnit\Framework\TestCase;
-use Zend\Expressive\Latte\ConfigProvider;
+use Webimpress\Mezzio\Latte\ConfigProvider;
 
 class ConfigProviderTest extends TestCase
 {
-    /**
-     * @var ConfigProvider
-     */
+    /** @var ConfigProvider */
     private $provider;
 
     protected function setUp() : void

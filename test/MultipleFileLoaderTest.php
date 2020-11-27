@@ -2,15 +2,20 @@
 
 declare(strict_types=1);
 
-namespace ZendTest\Expressive\Latte;
+namespace WebimpressTest\Mezzio\Latte;
 
 use Generator;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
+use ReflectionProperty;
 use RuntimeException;
-use Zend\Expressive\Latte\Exception\UnknownNamespaceException;
-use Zend\Expressive\Latte\MultipleFileLoader;
-use Zend\Expressive\Latte\MultiplePathLoaderInterface;
+use Webimpress\Mezzio\Latte\Exception\UnknownNamespaceException;
+use Webimpress\Mezzio\Latte\MultipleFileLoader;
+use Webimpress\Mezzio\Latte\MultiplePathLoaderInterface;
+
+use function array_unshift;
+use function call_user_func_array;
+use function time;
 
 class MultipleFileLoaderTest extends TestCase
 {
@@ -19,14 +24,21 @@ class MultipleFileLoaderTest extends TestCase
         $loader = new MultipleFileLoader();
 
         self::assertInstanceOf(MultiplePathLoaderInterface::class, $loader);
-        self::assertAttributeSame('latte', 'fileExtension', $loader);
+
+        $fileExtension = new ReflectionProperty($loader, 'fileExtension');
+        $fileExtension->setAccessible(true);
+
+        self::assertSame('latte', $fileExtension->getValue($loader));
     }
 
     public function testWithCustomFileExtension() : void
     {
         $loader = new MultipleFileLoader('foo-ext.bar');
 
-        self::assertAttributeSame('foo-ext.bar', 'fileExtension', $loader);
+        $fileExtension = new ReflectionProperty($loader, 'fileExtension');
+        $fileExtension->setAccessible(true);
+
+        self::assertSame('foo-ext.bar', $fileExtension->getValue($loader));
     }
 
     public function testPaths() : void
@@ -77,24 +89,24 @@ class MultipleFileLoaderTest extends TestCase
     public function testGetContent() : void
     {
         $root = vfsStream::setup(__FUNCTION__);
-        $dirNS = vfsStream::newDirectory('ns')->at($root);
+        $dirNs = vfsStream::newDirectory('ns')->at($root);
         vfsStream::newFile('my-template.latte')
-            ->at($dirNS)
+            ->at($dirNs)
             ->setContent('template content');
 
-        $dirInner = vfsStream::newDirectory('inner')->at($dirNS);
+        $dirInner = vfsStream::newDirectory('inner')->at($dirNs);
         vfsStream::newFile('tmp.latte')
             ->at($dirInner)
             ->setContent('$Inner $Template');
 
-        $dirNoNS = vfsStream::newDirectory('no-ns')->at($root);
+        $dirNoNs = vfsStream::newDirectory('no-ns')->at($root);
         vfsStream::newFile('other.latte')
-            ->at($dirNoNS)
+            ->at($dirNoNs)
             ->setContent('|other template|');
 
         $loader = new MultipleFileLoader('latte');
-        $loader->addPath($dirNS->url(), 'ns');
-        $loader->addPath($dirNoNS->url());
+        $loader->addPath($dirNs->url(), 'ns');
+        $loader->addPath($dirNoNs->url());
 
         self::assertSame('template content', $loader->getContent('ns::my-template'));
         self::assertSame('$Inner $Template', $loader->getContent('ns::inner/tmp'));

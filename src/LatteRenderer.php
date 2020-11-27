@@ -2,30 +2,34 @@
 
 declare(strict_types=1);
 
-namespace Zend\Expressive\Latte;
+namespace Webimpress\Mezzio\Latte;
 
 use Latte\Engine;
-use Zend\Expressive\Latte\Exception\InvalidLoaderException;
-use Zend\Expressive\Template\ArrayParametersTrait;
-use Zend\Expressive\Template\DefaultParamsTrait;
-use Zend\Expressive\Template\TemplatePath;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Mezzio\Template\ArrayParametersTrait;
+use Mezzio\Template\DefaultParamsTrait;
+use Mezzio\Template\TemplatePath;
+use Mezzio\Template\TemplateRendererInterface;
+use Webimpress\Mezzio\Latte\Exception\InvalidLoaderException;
+
+use function get_class;
+use function gettype;
+use function is_object;
+use function sprintf;
 
 class LatteRenderer implements TemplateRendererInterface
 {
     use ArrayParametersTrait;
     use DefaultParamsTrait;
 
-    /**
-     * @var Engine
-     */
+    /** @var Engine */
     private $template;
 
-    /**
-     * @var MultiplePathLoaderInterface
-     */
+    /** @var MultiplePathLoaderInterface */
     private $loader;
 
+    /**
+     * @throws InvalidLoaderException
+     */
     public function __construct(Engine $template)
     {
         $this->template = $template;
@@ -62,7 +66,7 @@ class LatteRenderer implements TemplateRendererInterface
      * Adds a template path, with optional namespace the templates in that path
      * provide.
      */
-    public function addPath(string $path, string $namespace = null) : void
+    public function addPath(string $path, ?string $namespace = null) : void
     {
         $this->loader->addPath($path, $namespace);
     }

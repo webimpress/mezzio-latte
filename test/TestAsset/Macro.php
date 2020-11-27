@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace ZendTest\Expressive\Latte\TestAsset;
+namespace WebimpressTest\Mezzio\Latte\TestAsset;
 
 use Latte\MacroNode;
 use Latte\PhpWriter;
-use Zend\Expressive\Latte\MacroInterface;
+use Webimpress\Mezzio\Latte\MacroInterface;
 
 class Macro implements MacroInterface
 {

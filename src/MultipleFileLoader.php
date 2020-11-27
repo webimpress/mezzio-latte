@@ -2,27 +2,25 @@
 
 declare(strict_types=1);
 
-namespace Zend\Expressive\Latte;
+namespace Webimpress\Mezzio\Latte;
 
 use Latte\Loaders\FileLoader;
-use Zend\Expressive\Latte\Exception\NamespaceUsedException;
-use Zend\Expressive\Latte\Exception\UnknownNamespaceException;
+use Webimpress\Mezzio\Latte\Exception\NamespaceUsedException;
+use Webimpress\Mezzio\Latte\Exception\UnknownNamespaceException;
+
+use function explode;
+use function sprintf;
+use function strpos;
 
 class MultipleFileLoader implements MultiplePathLoaderInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $fileExtension;
 
-    /**
-     * @var FileLoader[]
-     */
+    /** @var FileLoader[] */
     protected $loaders = [];
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected $paths = [];
 
     public function __construct(string $fileExtension = 'latte')
@@ -30,7 +28,10 @@ class MultipleFileLoader implements MultiplePathLoaderInterface
         $this->fileExtension = $fileExtension;
     }
 
-    public function addPath(string $path, string $namespace = null) : void
+    /**
+     * @throws NamespaceUsedException
+     */
+    public function addPath(string $path, ?string $namespace = null) : void
     {
         if (isset($this->loaders[$namespace])) {
             throw new NamespaceUsedException(sprintf('Namespace %s is already being used', $namespace));
@@ -46,8 +47,7 @@ class MultipleFileLoader implements MultiplePathLoaderInterface
     }
 
     /**
-     * @param string $name
-     * @return [string $namespace, string $file]
+     * @return array [string $namespace, string $file]
      * @throws UnknownNamespaceException
      */
     private function getName(string $name) : array
@@ -80,6 +80,9 @@ class MultipleFileLoader implements MultiplePathLoaderInterface
 
     /**
      * Checks whether template is expired.
+     *
+     * @param string $name
+     * @param int $time
      */
     public function isExpired($name, $time) : bool
     {
@@ -90,6 +93,9 @@ class MultipleFileLoader implements MultiplePathLoaderInterface
 
     /**
      * Returns referred template name.
+     *
+     * @param string $name
+     * @param string $referringName
      */
     public function getReferredName($name, $referringName) : string
     {
@@ -98,6 +104,8 @@ class MultipleFileLoader implements MultiplePathLoaderInterface
 
     /**
      * Returns unique identifier for caching.
+     *
+     * @param string $name
      */
     public function getUniqueId($name) : string
     {

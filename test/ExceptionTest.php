@@ -2,12 +2,18 @@
 
 declare(strict_types=1);
 
-namespace ZendTest\Expressive\Latte;
+namespace WebimpressTest\Mezzio\Latte;
 
 use Generator;
+use Mezzio\Template\Exception\ExceptionInterface as TemplateExceptionInterface;
 use PHPUnit\Framework\TestCase;
-use Zend\Expressive\Latte\Exception\ExceptionInterface;
-use Zend\Expressive\Template\Exception\ExceptionInterface as TemplateExceptionInterface;
+use Webimpress\Mezzio\Latte\Exception\ExceptionInterface;
+
+use function basename;
+use function glob;
+use function is_a;
+use function strrpos;
+use function substr;
 
 class ExceptionTest extends TestCase
 {

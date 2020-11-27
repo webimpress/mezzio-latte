@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Zend\Expressive\Latte\Filter;
+namespace Webimpress\Mezzio\Latte\Filter;
 
+use Mezzio\Helper\UrlHelper as MezzioUrlHelper;
 use Psr\Container\ContainerInterface;
 
 class UrlHelperFactory
 {
     public function __invoke(ContainerInterface $container) : UrlHelper
     {
-        $urlHelper = $container->get(\Zend\Expressive\Helper\UrlHelper::class);
+        $urlHelper = $container->get(MezzioUrlHelper::class);
 
         return new UrlHelper($urlHelper);
     }

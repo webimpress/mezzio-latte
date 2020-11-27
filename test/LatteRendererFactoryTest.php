@@ -2,37 +2,34 @@
 
 declare(strict_types=1);
 
-namespace ZendTest\Expressive\Latte;
+namespace WebimpressTest\Mezzio\Latte;
 
 use Latte\Engine;
 use Latte\Runtime\FilterInfo;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use ReflectionProperty;
 use stdClass;
-use Zend\Expressive\Latte\Exception\InvalidMacroException;
-use Zend\Expressive\Latte\LatteRenderer;
-use Zend\Expressive\Latte\LatteRendererFactory;
-use Zend\Expressive\Latte\MultipleFileLoader;
-use Zend\Expressive\Latte\MultiplePathLoaderInterface;
+use Webimpress\Mezzio\Latte\Exception\InvalidMacroException;
+use Webimpress\Mezzio\Latte\LatteRenderer;
+use Webimpress\Mezzio\Latte\LatteRendererFactory;
+use Webimpress\Mezzio\Latte\MultipleFileLoader;
+use Webimpress\Mezzio\Latte\MultiplePathLoaderInterface;
 
 class LatteRendererFactoryTest extends TestCase
 {
-    /**
-     * @var ContainerInterface|ObjectProphecy
-     */
+    /** @var ContainerInterface|MockObject */
     private $container;
 
-    /**
-     * @var LatteRendererFactory
-     */
+    /** @var LatteRendererFactory */
     private $factory;
 
     protected function setUp() : void
     {
-        $this->container = $this->prophesize(ContainerInterface::class);
+        $this->container = $this->createMock(ContainerInterface::class);
 
         $this->factory = new LatteRendererFactory();
     }
@@ -40,17 +37,21 @@ class LatteRendererFactoryTest extends TestCase
     public function testInvokeCreatesInstance() : void
     {
         $config = [];
-        $loader = $this->prophesize(MultiplePathLoaderInterface::class);
+        $loader = $this->createMock(MultiplePathLoaderInterface::class);
 
-        $this->container->get('config')->willReturn($config);
-        $this->container->get(MultiplePathLoaderInterface::class)
-            ->willReturn($loader)
-            ->shouldBeCalledTimes(1);
+        $this->container->method('get')->willReturnMap([
+            ['config', $config],
+            [MultiplePathLoaderInterface::class, $loader],
+        ]);
 
-        $instance = ($this->factory)($this->container->reveal());
+        $instance = ($this->factory)($this->container);
 
         self::assertInstanceOf(LatteRenderer::class, $instance);
-        self::assertAttributeInstanceOf(Engine::class, 'template', $instance);
+
+        $engine = new ReflectionProperty($instance, 'template');
+        $engine->setAccessible(true);
+
+        self::assertInstanceOf(Engine::class, $engine->getValue($instance));
     }
 
     public function testInvokeCreatesInstanceWithCacheDir() : void
@@ -61,41 +62,44 @@ class LatteRendererFactoryTest extends TestCase
             ],
         ];
 
-        $this->container->get('config')->willReturn($config);
-        $this->container->get(MultiplePathLoaderInterface::class)->willReturn(
-            $this->prophesize(MultiplePathLoaderInterface::class)->reveal()
-        );
+        $this->container->method('get')->willReturnMap([
+            ['config', $config],
+            [MultiplePathLoaderInterface::class, $this->createMock(MultiplePathLoaderInterface::class)],
+        ]);
 
-        $instance = ($this->factory)($this->container->reveal());
+        $instance = ($this->factory)($this->container);
 
         self::assertInstanceOf(LatteRenderer::class, $instance);
-        self::assertAttributeInstanceOf(Engine::class, 'template', $instance);
-        $engine = new \ReflectionProperty($instance, 'template');
+
+        $engine = new ReflectionProperty($instance, 'template');
         $engine->setAccessible(true);
-        self::assertAttributeSame('foo/cache/bar', 'tempDirectory', $engine->getValue($instance));
+
+        self::assertInstanceOf(Engine::class, $engine->getValue($instance));
+
+        $tempDirectory = new ReflectionProperty($engine->getValue($instance), 'tempDirectory');
+        $tempDirectory->setAccessible(true);
+
+        self::assertSame('foo/cache/bar', $tempDirectory->getValue($engine->getValue($instance)));
     }
 
     public function testCustomFilters() : void
     {
-        $invokable = new class()
-        {
-            public function __invoke($s)
+        $invokable = new class() {
+            public function __invoke(string $s) : string
             {
                 return 'invokable' . $s;
             }
         };
 
-        $info = new class()
-        {
-            public function info(FilterInfo $info, $s)
+        $info = new class() {
+            public function info(FilterInfo $info, string $s) : string
             {
                 return 'info' . $s;
             }
         };
 
-        $factory = new class()
-        {
-            public function __invoke($s)
+        $factory = new class() {
+            public function __invoke(string $s) : string
             {
                 return 'factory' . $s;
             }
@@ -104,10 +108,10 @@ class LatteRendererFactoryTest extends TestCase
         $config = [
             'latte' => [
                 'filters' => [
-                    function ($filterName, $s) {
+                    static function (string $filterName, string $s) : string {
                         return 'dynamic@' . $filterName . '@' . $s;
                     },
-                    'callback' => function ($s) {
+                    'callback' => static function (string $s) : string {
                         return 'callback' . $s;
                     },
                     'factory' => 'my-factory-filter',
@@ -141,14 +145,18 @@ EOC;
         $loader = new MultipleFileLoader('latte');
         $loader->addPath($root->url());
 
-        $this->container->get('config')->willReturn($config);
-        $this->container->get(MultiplePathLoaderInterface::class)->willReturn($loader);
-        $this->container->has(TestAsset\Filter::class . '::ext2')->willReturn(false);
-        $this->container->has('my-factory-filter')->willReturn(true);
-        $this->container->get('my-factory-filter')->willReturn($factory);
+        $this->container->method('get')->willReturnMap([
+            ['config', $config],
+            [MultiplePathLoaderInterface::class, $loader],
+            ['my-factory-filter', $factory],
+        ]);
+        $this->container->method('has')->willReturnMap([
+            [TestAsset\Filter::class . '::ext2', false],
+            ['my-factory-filter', true],
+        ]);
 
         /** @var LatteRenderer $renderer */
-        $renderer = ($this->factory)($this->container->reveal());
+        $renderer = ($this->factory)($this->container);
 
         $result = $renderer->render('my-template', ['var' => 'FooBar']);
 
@@ -196,13 +204,15 @@ EOC;
         $loader = new MultipleFileLoader('latte');
         $loader->addPath($root->url());
 
-        $this->container->get('config')->willReturn($config);
-        $this->container->get(MultiplePathLoaderInterface::class)->willReturn($loader);
-        $this->container->has(TestAsset\Macro::class)->willReturn(true);
-        $this->container->get(TestAsset\Macro::class)->willReturn(new TestAsset\Macro());
+        $this->container->method('get')->willReturnMap([
+            ['config', $config],
+            [MultiplePathLoaderInterface::class, $loader],
+            [TestAsset\Macro::class, new TestAsset\Macro()],
+        ]);
+        $this->container->method('has')->with(TestAsset\Macro::class)->willReturn(true);
 
         /** @var LatteRenderer $renderer */
-        $renderer = ($this->factory)($this->container->reveal());
+        $renderer = ($this->factory)($this->container);
 
         $result = $renderer->render('my-template', ['var' => 'FooBar']);
 
@@ -226,15 +236,15 @@ EOC;
             ],
         ];
 
-        $this->container->get('config')->willReturn($config);
-        $this->container->get(MultiplePathLoaderInterface::class)->willReturn(
-            $this->prophesize(MultiplePathLoaderInterface::class)
-        );
-        $this->container->has('macro')->willReturn(true);
-        $this->container->get('macro')->willReturn(new stdClass());
+        $this->container->method('get')->willReturnMap([
+            ['config', $config],
+            [MultiplePathLoaderInterface::class, $this->createMock(MultiplePathLoaderInterface::class)],
+            ['macro', new stdClass()],
+        ]);
+        $this->container->method('has')->with('macro')->willReturn(true);
 
         $this->expectException(InvalidMacroException::class);
         $this->expectException(ContainerExceptionInterface::class);
-        ($this->factory)($this->container->reveal());
+        ($this->factory)($this->container);
     }
 }

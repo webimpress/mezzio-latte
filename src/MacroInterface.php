@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zend\Expressive\Latte;
+namespace Webimpress\Mezzio\Latte;
 
 use Latte\MacroNode;
 use Latte\PhpWriter;

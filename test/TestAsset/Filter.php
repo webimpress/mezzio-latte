@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace ZendTest\Expressive\Latte\TestAsset;
+namespace WebimpressTest\Mezzio\Latte\TestAsset;
 
 class Filter
 {
-    public static function ext1($s, $p = null)
+    public static function ext1(string $s, ?string $p = null) : string
     {
         return 'ext1' . $s . $p;
     }
 
-    public static function ext2($s, $p = 1, $r = 2)
+    public static function ext2(string $s, int $p = 1, int $r = 2) : string
     {
         return 'ext2' . $s . '|' . $p . '|' . $r . '|';
     }
