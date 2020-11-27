@@ -1,6 +1,6 @@
 # webimpress/mezzio-latte
 
-[![Build Status](https://secure.travis-ci.org/webimpress/mezzio-latte.svg?branch=master)](https://secure.travis-ci.org/webimpress/mezzio-latte)
+[![Build Status](https://secure.travis-ci.com/webimpress/mezzio-latte.svg?branch=master)](https://secure.travis-ci.com/webimpress/mezzio-latte)
 [![Coverage Status](https://coveralls.io/repos/github/webimpress/mezzio-latte/badge.svg?branch=master)](https://coveralls.io/github/webimpress/mezzio-latte?branch=master)
 
 Provides [Latte](https://latte.nette.org/) integration for [Mezzio](https://docs.mezzio.dev/). 
