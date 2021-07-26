@@ -60,24 +60,26 @@
         },
         {
             "name": "laminas/laminas-zendframework-bridge",
-            "version": "1.1.1",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-zendframework-bridge.git",
-                "reference": "6ede70583e101030bcace4dcddd648f760ddf642"
+                "reference": "13af2502d9bb6f7d33be2de4b51fb68c6cdb476e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-zendframework-bridge/zipball/6ede70583e101030bcace4dcddd648f760ddf642",
-                "reference": "6ede70583e101030bcace4dcddd648f760ddf642",
+                "url": "https://api.github.com/repos/laminas/laminas-zendframework-bridge/zipball/13af2502d9bb6f7d33be2de4b51fb68c6cdb476e",
+                "reference": "13af2502d9bb6f7d33be2de4b51fb68c6cdb476e",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.6 || ^7.0 || ^8.0"
+                "php": "^7.3 || ^8.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "^5.7 || ^6.5 || ^7.5 || ^8.1 || ^9.3",
-                "squizlabs/php_codesniffer": "^3.5"
+                "psalm/plugin-phpunit": "^0.15.1",
+                "squizlabs/php_codesniffer": "^3.5",
+                "vimeo/psalm": "^4.6"
             },
             "type": "library",
             "extra": {
@@ -110,7 +112,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2020-09-14T14:23:00+00:00"
+            "time": "2021-06-24T12:49:22+00:00"
         },
         {
             "name": "latte/latte",
@@ -257,16 +259,16 @@
         },
         {
             "name": "mezzio/mezzio-router",
-            "version": "3.2.1",
+            "version": "3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mezzio/mezzio-router.git",
-                "reference": "73ac2b7b1d910ae724c255a74c30889c6c2665ca"
+                "reference": "c09ebf1799f5dea4226155e717c7e50658759113"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mezzio/mezzio-router/zipball/73ac2b7b1d910ae724c255a74c30889c6c2665ca",
-                "reference": "73ac2b7b1d910ae724c255a74c30889c6c2665ca",
+                "url": "https://api.github.com/repos/mezzio/mezzio-router/zipball/c09ebf1799f5dea4226155e717c7e50658759113",
+                "reference": "c09ebf1799f5dea4226155e717c7e50658759113",
                 "shasum": ""
             },
             "require": {
@@ -281,10 +283,12 @@
                 "zendframework/zend-expressive-router": "^3.1.1"
             },
             "require-dev": {
-                "laminas/laminas-coding-standard": "~2.1.0",
-                "malukenho/docheader": "^0.1.6",
+                "laminas/laminas-coding-standard": "~2.2.0",
                 "phpspec/prophecy": "^1.9",
-                "phpunit/phpunit": "^9.4.1"
+                "phpspec/prophecy-phpunit": "^2.0",
+                "phpunit/phpunit": "^9.4.1",
+                "psalm/plugin-phpunit": "^0.15.0",
+                "vimeo/psalm": "^4.3"
             },
             "suggest": {
                 "mezzio/mezzio-aurarouter": "^3.0 to use the Aura.Router routing adapter",
@@ -322,7 +326,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2020-10-24T15:19:53+00:00"
+            "time": "2021-07-24T13:12:24+00:00"
         },
         {
             "name": "mezzio/mezzio-template",
@@ -2310,6 +2314,7 @@
                     "type": "github"
                 }
             ],
+            "abandoned": true,
             "time": "2020-09-28T06:45:17+00:00"
         },
         {
@@ -2642,12 +2647,12 @@
             "version": "1.9.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/webmozart/assert.git",
+                "url": "https://github.com/webmozarts/assert.git",
                 "reference": "bafc69caeb4d49c39fd0779086c03a3738cbb389"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/bafc69caeb4d49c39fd0779086c03a3738cbb389",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/bafc69caeb4d49c39fd0779086c03a3738cbb389",
                 "reference": "bafc69caeb4d49c39fd0779086c03a3738cbb389",
                 "shasum": ""
             },
